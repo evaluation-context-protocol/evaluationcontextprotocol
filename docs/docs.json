@@ -1,0 +1,38 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Evaluation Context Protocol",
+  "description": "Portable evaluations for AI agents.",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "getting-started/intro",
+              "getting-started/quickstart"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Specification",
+        "groups": [
+          {
+            "group": "Protocol",
+            "pages": ["specification/index"]
+          }
+        ]
+      },
+      {
+        "tab": "Examples",
+        "pages": ["examples"]
+      },
+      {
+        "tab": "Community",
+        "pages": ["community/index"]
+      }
+    ]
+  }
+}

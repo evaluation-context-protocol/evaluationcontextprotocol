@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { Markdown, extractHeadings } from "@/components/markdown";
 import { OnThisPage } from "@/components/on-this-page";
-import { specMd } from "@/content/spec";
+import { getDoc } from "@/lib/docs";
+
+const doc = getDoc("specification/index");
 
 export const Route = createFileRoute("/_docs/spec")({
   head: () => ({
@@ -11,6 +13,7 @@ export const Route = createFileRoute("/_docs/spec")({
       {
         name: "description",
         content:
+          doc.frontmatter.description ??
           "The ECP JSON-RPC 2.0 contract: transports, methods, manifest format, graders, reports, and JSON schemas.",
       },
       { property: "og:title", content: "Specification — Evaluation Context Protocol" },
@@ -24,14 +27,14 @@ export const Route = createFileRoute("/_docs/spec")({
 });
 
 function Page() {
-  const headings = useMemo(() => extractHeadings(specMd), []);
+  const headings = useMemo(() => extractHeadings(doc.body), []);
   return (
     <>
       <article className="min-w-0 py-10">
         <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Reference
         </div>
-        <Markdown source={specMd} />
+        <Markdown source={doc.body} />
       </article>
       <OnThisPage headings={headings} />
     </>
