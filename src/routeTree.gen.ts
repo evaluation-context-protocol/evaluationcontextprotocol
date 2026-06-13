@@ -9,38 +9,117 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocsSpecRouteImport } from './routes/_docs.spec'
+import { Route as DocsQuickstartRouteImport } from './routes/_docs.quickstart'
+import { Route as DocsIntroductionRouteImport } from './routes/_docs.introduction'
+import { Route as DocsExamplesRouteImport } from './routes/_docs.examples'
+import { Route as DocsCommunityRouteImport } from './routes/_docs.community'
 
+const DocsRoute = DocsRouteImport.update({
+  id: '/_docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsSpecRoute = DocsSpecRouteImport.update({
+  id: '/spec',
+  path: '/spec',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsQuickstartRoute = DocsQuickstartRouteImport.update({
+  id: '/quickstart',
+  path: '/quickstart',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsIntroductionRoute = DocsIntroductionRouteImport.update({
+  id: '/introduction',
+  path: '/introduction',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsExamplesRoute = DocsExamplesRouteImport.update({
+  id: '/examples',
+  path: '/examples',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsCommunityRoute = DocsCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => DocsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/community': typeof DocsCommunityRoute
+  '/examples': typeof DocsExamplesRoute
+  '/introduction': typeof DocsIntroductionRoute
+  '/quickstart': typeof DocsQuickstartRoute
+  '/spec': typeof DocsSpecRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/community': typeof DocsCommunityRoute
+  '/examples': typeof DocsExamplesRoute
+  '/introduction': typeof DocsIntroductionRoute
+  '/quickstart': typeof DocsQuickstartRoute
+  '/spec': typeof DocsSpecRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_docs': typeof DocsRouteWithChildren
+  '/_docs/community': typeof DocsCommunityRoute
+  '/_docs/examples': typeof DocsExamplesRoute
+  '/_docs/introduction': typeof DocsIntroductionRoute
+  '/_docs/quickstart': typeof DocsQuickstartRoute
+  '/_docs/spec': typeof DocsSpecRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/community'
+    | '/examples'
+    | '/introduction'
+    | '/quickstart'
+    | '/spec'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/community'
+    | '/examples'
+    | '/introduction'
+    | '/quickstart'
+    | '/spec'
+  id:
+    | '__root__'
+    | '/'
+    | '/_docs'
+    | '/_docs/community'
+    | '/_docs/examples'
+    | '/_docs/introduction'
+    | '/_docs/quickstart'
+    | '/_docs/spec'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DocsRoute: typeof DocsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_docs': {
+      id: '/_docs'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +127,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_docs/spec': {
+      id: '/_docs/spec'
+      path: '/spec'
+      fullPath: '/spec'
+      preLoaderRoute: typeof DocsSpecRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/quickstart': {
+      id: '/_docs/quickstart'
+      path: '/quickstart'
+      fullPath: '/quickstart'
+      preLoaderRoute: typeof DocsQuickstartRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/introduction': {
+      id: '/_docs/introduction'
+      path: '/introduction'
+      fullPath: '/introduction'
+      preLoaderRoute: typeof DocsIntroductionRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/examples': {
+      id: '/_docs/examples'
+      path: '/examples'
+      fullPath: '/examples'
+      preLoaderRoute: typeof DocsExamplesRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/community': {
+      id: '/_docs/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof DocsCommunityRouteImport
+      parentRoute: typeof DocsRoute
+    }
   }
 }
 
+interface DocsRouteChildren {
+  DocsCommunityRoute: typeof DocsCommunityRoute
+  DocsExamplesRoute: typeof DocsExamplesRoute
+  DocsIntroductionRoute: typeof DocsIntroductionRoute
+  DocsQuickstartRoute: typeof DocsQuickstartRoute
+  DocsSpecRoute: typeof DocsSpecRoute
+}
+
+const DocsRouteChildren: DocsRouteChildren = {
+  DocsCommunityRoute: DocsCommunityRoute,
+  DocsExamplesRoute: DocsExamplesRoute,
+  DocsIntroductionRoute: DocsIntroductionRoute,
+  DocsQuickstartRoute: DocsQuickstartRoute,
+  DocsSpecRoute: DocsSpecRoute,
+}
+
+const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DocsRoute: DocsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
