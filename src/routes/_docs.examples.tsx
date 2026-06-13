@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { Markdown, extractHeadings } from "@/components/markdown";
 import { OnThisPage } from "@/components/on-this-page";
-import { examplesMd } from "@/content/examples";
+import { getDoc } from "@/lib/docs";
+
+const doc = getDoc("examples");
 
 export const Route = createFileRoute("/_docs/examples")({
   head: () => ({
@@ -11,6 +13,7 @@ export const Route = createFileRoute("/_docs/examples")({
       {
         name: "description",
         content:
+          doc.frontmatter.description ??
           "Example ECP manifests: customer support, framework integrations, and Streamable HTTP demos.",
       },
       { property: "og:title", content: "Examples — Evaluation Context Protocol" },
@@ -24,14 +27,14 @@ export const Route = createFileRoute("/_docs/examples")({
 });
 
 function Page() {
-  const headings = useMemo(() => extractHeadings(examplesMd), []);
+  const headings = useMemo(() => extractHeadings(doc.body), []);
   return (
     <>
       <article className="min-w-0 py-10">
         <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Demos
         </div>
-        <Markdown source={examplesMd} />
+        <Markdown source={doc.body} />
       </article>
       <OnThisPage headings={headings} />
     </>

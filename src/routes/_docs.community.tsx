@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { Markdown, extractHeadings } from "@/components/markdown";
 import { OnThisPage } from "@/components/on-this-page";
-import { communityMd } from "@/content/community";
+import { getDoc } from "@/lib/docs";
+
+const doc = getDoc("community/index");
 
 export const Route = createFileRoute("/_docs/community")({
   head: () => ({
@@ -11,6 +13,7 @@ export const Route = createFileRoute("/_docs/community")({
       {
         name: "description",
         content:
+          doc.frontmatter.description ??
           "ECP is an open protocol. Find the repository, contribute to the spec or runtime, and validate your implementation.",
       },
       { property: "og:title", content: "Community — Evaluation Context Protocol" },
@@ -24,14 +27,14 @@ export const Route = createFileRoute("/_docs/community")({
 });
 
 function Page() {
-  const headings = useMemo(() => extractHeadings(communityMd), []);
+  const headings = useMemo(() => extractHeadings(doc.body), []);
   return (
     <>
       <article className="min-w-0 py-10">
         <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Project
         </div>
-        <Markdown source={communityMd} />
+        <Markdown source={doc.body} />
       </article>
       <OnThisPage headings={headings} />
     </>
