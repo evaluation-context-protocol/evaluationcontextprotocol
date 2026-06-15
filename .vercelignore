@@ -1,0 +1,6 @@
+.lovable
+node_modules
+.cache
+.output
+dist
+.vercel
