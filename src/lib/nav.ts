@@ -3,6 +3,7 @@ export type NavGroup = { label: string; items: NavItem[] };
 export type Tab = { label: string; to: string };
 
 export const tabs: Tab[] = [
+  { label: "Home", to: "/" },
   { label: "Documentation", to: "/introduction" },
   { label: "Specification", to: "/spec" },
   { label: "Examples", to: "/examples" },
