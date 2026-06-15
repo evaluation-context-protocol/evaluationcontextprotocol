@@ -3,6 +3,7 @@ export type NavGroup = { label: string; items: NavItem[] };
 export type Tab = { label: string; to: string };
 
 export const tabs: Tab[] = [
+  { label: "Home", to: "/" },
   { label: "Documentation", to: "/introduction" },
   { label: "Specification", to: "/spec" },
   { label: "Examples", to: "/examples" },
@@ -63,6 +64,7 @@ export const sidebarByTab: Record<string, NavGroup[]> = {
 };
 
 export function tabForPath(pathname: string): string {
+  if (pathname === "/") return "Home";
   if (pathname.startsWith("/spec")) return "Specification";
   if (pathname.startsWith("/examples")) return "Examples";
   if (pathname.startsWith("/community")) return "Community";
