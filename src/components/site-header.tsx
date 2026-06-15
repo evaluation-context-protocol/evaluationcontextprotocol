@@ -11,9 +11,11 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-6 px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="flex h-6 w-6 items-center justify-center rounded bg-foreground text-background">
-            <span className="text-[10px] font-bold tracking-tight">ECP</span>
-          </div>
+          <img
+            src="/favicon.png"
+            alt="ECP"
+            className="h-6 w-6 rounded object-cover"
+          />
           <span className="text-[15px] font-semibold tracking-tight">
             Evaluation Context Protocol
           </span>
