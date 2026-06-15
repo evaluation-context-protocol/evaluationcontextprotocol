@@ -64,6 +64,7 @@ export const sidebarByTab: Record<string, NavGroup[]> = {
 };
 
 export function tabForPath(pathname: string): string {
+  if (pathname === "/") return "Home";
   if (pathname.startsWith("/spec")) return "Specification";
   if (pathname.startsWith("/examples")) return "Examples";
   if (pathname.startsWith("/community")) return "Community";
