@@ -55,7 +55,46 @@ Other manifests live in:
 - `examples/pydantic_ai_demo/manifest.yaml`
 - `examples/llamaindex_demo/manifest.yaml`
 
-## 5. JSON output for CI
+## 5. Native Pytest Integration
+
+Instead of using `ecp run`, you can write native Python test assertions using our built-in Pytest fixture:
+
+```python
+# test_agent.py
+def test_customer_support(ecp_agent):
+    result = ecp_agent.step("I need a refund")
+    assert "refund" in result.get("public_output", "").lower()
+```
+
+Run it directly with your agent target:
+
+```bash
+pytest test_agent.py --ecp-target="python agent.py"
+```
+
+## 6. Large Datasets (CSV/JSONL)
+
+For large-scale evaluations, you can dynamically load datasets directly in your `manifest.yaml` instead of hardcoding `steps`:
+
+```yaml
+scenarios:
+  - name: "Bulk refund tests"
+    dataset:
+      type: "csv"
+      source: "data/refund_queries.csv"
+      input_column: "user_query"
+      output_column: "expected_response"
+```
+
+## 7. Exporting to LangSmith
+
+You can natively export all evaluation runs, including inputs and outputs, directly to LangSmith:
+
+```bash
+ecp run --manifest examples/customer_support_demo/manifest.yaml --export langsmith
+```
+
+## 8. JSON output for CI
 
 Print a JSON report:
 
@@ -71,7 +110,7 @@ ecp run --manifest examples/customer_support_demo/manifest.yaml --json-out repor
 
 By default, `ecp run` exits non-zero when checks fail. Use `--no-fail-on-error` when you want a report without failing the process.
 
-## 6. Optional LLM judge
+## 9. Optional LLM judge
 
 If your manifest uses `llm_judge`, set:
 
@@ -81,7 +120,7 @@ $env:ECP_LLM_JUDGE_MODEL="gpt-4o-mini"
 $env:ECP_LLM_JUDGE_TEMPERATURE="0"
 ```
 
-## 7. Streamable HTTP
+## 10. Streamable HTTP
 
 Start the HTTP agent:
 
@@ -95,7 +134,7 @@ Run the HTTP-target manifest:
 ecp run --manifest examples/streamable_http_demo/manifest.yaml --json
 ```
 
-## 8. Inspector
+## 11. Inspector
 
 ```bash
 npm run inspector
@@ -103,7 +142,7 @@ npm run inspector
 
 Open `http://127.0.0.1:6274`.
 
-## 9. Conformance smoke test
+## 12. Conformance smoke test
 
 For protocol implementers:
 
