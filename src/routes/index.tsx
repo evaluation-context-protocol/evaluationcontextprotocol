@@ -35,7 +35,7 @@ function Landing() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs text-muted-foreground">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" />
-              v0.3.1 · JSON-RPC 2.0
+              v0.3.3 · JSON-RPC 2.0
             </div>
             <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
               Portable evaluations
@@ -84,8 +84,8 @@ function Landing() {
             <pre className="px-5 py-5 text-[13px] leading-relaxed text-[var(--code-fg)]">
               <code>
                 <span className="text-white/40">$</span> pip install{" "}
-                <span className="text-[oklch(0.82_0.14_140)]">"ecp-runtime==0.3.1"</span>{" "}
-                <span className="text-[oklch(0.82_0.14_140)]">"ecp-sdk==0.3.1"</span>
+                <span className="text-[oklch(0.82_0.14_140)]">"ecp-runtime==0.3.3"</span>{" "}
+                <span className="text-[oklch(0.82_0.14_140)]">"ecp-sdk==0.3.3"</span>
                 {"\n"}
                 <span className="text-white/40">$</span> ecp init{"\n"}
                 <span className="text-white/40">$</span> ecp run --manifest{" "}

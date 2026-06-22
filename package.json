@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
+    "predev": "node scripts/sync-version.js",
     "build": "vite build",
+    "prebuild": "node scripts/sync-version.js",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
