@@ -46,19 +46,29 @@ Run async `@on_step` and `@on_reset` hooks over stdio:
 ecp run --manifest examples/async_python_demo/manifest.yaml --timeout 10
 ```
 
-Start the same agent over Streamable HTTP:
+Start the same agent over Streamable HTTP in one terminal:
 
 ```bash
 ECP_TRANSPORT=http ECP_HTTP_PORT=8765 python examples/async_python_demo/agent.py
+```
+
+In another terminal, run the conformance checks:
+
+```bash
 ecp conformance --target http://127.0.0.1:8765/ecp --timeout 10
 ```
 
 ## Streamable HTTP
 
-Run an agent as an HTTP server and target it from the runtime:
+Start an agent as an HTTP server in one terminal:
 
 ```bash
 python examples/streamable_http_demo/agent.py
+```
+
+In another terminal, target it from the runtime:
+
+```bash
 ecp run --manifest examples/streamable_http_demo/manifest.yaml --json
 ```
 
