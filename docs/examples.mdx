@@ -32,10 +32,25 @@ ecp run --manifest examples/two_agent_demo/manifest.yaml
 Install the matching SDK extra before running:
 
 ```bash
-pip install "ecp-sdk[langchain]==0.3.3" langchain-openai
-pip install "ecp-sdk[crewai]==0.3.3" crewai
-pip install "ecp-sdk[pydanticai]==0.3.3" pydantic-ai
-pip install "ecp-sdk[llamaindex]==0.3.3" llama-index llama-index-llms-openai llama-index-tools-yahoo-finance
+pip install "ecp-sdk[langchain]==0.4.0" langchain-openai
+pip install "ecp-sdk[crewai]==0.4.0" crewai
+pip install "ecp-sdk[pydanticai]==0.4.0" pydantic-ai
+pip install "ecp-sdk[llamaindex]==0.4.0" llama-index llama-index-llms-openai llama-index-tools-yahoo-finance
+```
+
+## Async Python
+
+Run async `@on_step` and `@on_reset` hooks over stdio:
+
+```bash
+ecp run --manifest examples/async_python_demo/manifest.yaml --timeout 10
+```
+
+Start the same agent over Streamable HTTP:
+
+```bash
+ECP_TRANSPORT=http ECP_HTTP_PORT=8765 python examples/async_python_demo/agent.py
+ecp conformance --target http://127.0.0.1:8765/ecp --timeout 10
 ```
 
 ## Streamable HTTP

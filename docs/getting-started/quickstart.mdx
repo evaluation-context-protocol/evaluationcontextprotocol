@@ -12,16 +12,16 @@ Run your first portable evaluation against an agent in a few minutes.
 ```bash
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install "ecp-runtime==0.3.3" "ecp-sdk==0.3.3"
+pip install "ecp-runtime==0.4.0" "ecp-sdk==0.4.0"
 ```
 
 For framework demos, install the matching SDK extra:
 
 ```bash
-pip install "ecp-sdk[langchain]==0.3.3" langchain-openai
-pip install "ecp-sdk[crewai]==0.3.3" crewai
-pip install "ecp-sdk[pydanticai]==0.3.3" pydantic-ai
-pip install "ecp-sdk[llamaindex]==0.3.3" llama-index llama-index-llms-openai llama-index-tools-yahoo-finance
+pip install "ecp-sdk[langchain]==0.4.0" langchain-openai
+pip install "ecp-sdk[crewai]==0.4.0" crewai
+pip install "ecp-sdk[pydanticai]==0.4.0" pydantic-ai
+pip install "ecp-sdk[llamaindex]==0.4.0" llama-index llama-index-llms-openai llama-index-tools-yahoo-finance
 ```
 
 ## 2. Create a starter eval
@@ -55,46 +55,17 @@ Other manifests live in:
 - `examples/pydantic_ai_demo/manifest.yaml`
 - `examples/llamaindex_demo/manifest.yaml`
 
-## 5. Native Pytest Integration
+## 5. Run an async agent
 
-Instead of using `ecp run`, you can write native Python test assertions using our built-in Pytest fixture:
-
-```python
-# test_agent.py
-def test_customer_support(ecp_agent):
-    result = ecp_agent.step("I need a refund")
-    assert "refund" in result.get("public_output", "").lower()
-```
-
-Run it directly with your agent target:
+ECP supports synchronous and asynchronous `@on_step` and `@on_reset` hooks. Run the async Python example over the default stdio transport:
 
 ```bash
-pytest test_agent.py --ecp-target="python agent.py"
+ecp run --manifest examples/async_python_demo/manifest.yaml --timeout 10
 ```
 
-## 6. Large Datasets (CSV/JSONL)
+The same async lifecycle hooks also work with Streamable HTTP.
 
-For large-scale evaluations, you can dynamically load datasets directly in your `manifest.yaml` instead of hardcoding `steps`:
-
-```yaml
-scenarios:
-  - name: "Bulk refund tests"
-    dataset:
-      type: "csv"
-      source: "data/refund_queries.csv"
-      input_column: "user_query"
-      output_column: "expected_response"
-```
-
-## 7. Exporting to LangSmith
-
-You can natively export all evaluation runs, including inputs and outputs, directly to LangSmith:
-
-```bash
-ecp run --manifest examples/customer_support_demo/manifest.yaml --export langsmith
-```
-
-## 8. JSON output for CI
+## 6. JSON output for CI
 
 Print a JSON report:
 
@@ -110,7 +81,7 @@ ecp run --manifest examples/customer_support_demo/manifest.yaml --json-out repor
 
 By default, `ecp run` exits non-zero when checks fail. Use `--no-fail-on-error` when you want a report without failing the process.
 
-## 9. Optional LLM judge
+## 7. Optional LLM judge
 
 If your manifest uses `llm_judge`, set:
 
@@ -120,7 +91,7 @@ $env:ECP_LLM_JUDGE_MODEL="gpt-4o-mini"
 $env:ECP_LLM_JUDGE_TEMPERATURE="0"
 ```
 
-## 10. Streamable HTTP
+## 8. Streamable HTTP
 
 Start the HTTP agent:
 
@@ -134,7 +105,18 @@ Run the HTTP-target manifest:
 ecp run --manifest examples/streamable_http_demo/manifest.yaml --json
 ```
 
-## 11. Inspector
+## 9. Configure RPC timeouts
+
+Set the timeout directly for evaluation runs and conformance checks:
+
+```bash
+ecp run --manifest examples/customer_support_demo/manifest.yaml --timeout 60
+ecp conformance --target "python agent.py" --timeout 60
+```
+
+The `--timeout` option overrides `ECP_RPC_TIMEOUT`. The default is 30 seconds.
+
+## 10. Inspector
 
 ```bash
 npm run inspector
@@ -142,7 +124,7 @@ npm run inspector
 
 Open `http://127.0.0.1:6274`.
 
-## 12. Conformance smoke test
+## 11. Conformance smoke test
 
 For protocol implementers:
 
@@ -152,6 +134,6 @@ ecp conformance --target "python examples/customer_support_demo/agent.py"
 
 ## Notes
 
-- The current release line is `0.3.3`.
+- The current release line is `0.4.0`.
 - New agents should use `evaluation_context`; `private_thought` remains a deprecated compatibility alias.
-- Use `ECP_RPC_TIMEOUT` to control step timeouts. The default is 30 seconds.
+- Use `--timeout` or `ECP_RPC_TIMEOUT` to control RPC timeouts. The default is 30 seconds.
