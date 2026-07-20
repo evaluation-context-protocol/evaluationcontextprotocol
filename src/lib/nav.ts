@@ -4,18 +4,26 @@ export type Tab = { label: string; to: string };
 
 export const tabs: Tab[] = [
   { label: "Home", to: "/" },
-  { label: "Documentation", to: "/introduction" },
-  { label: "Specification", to: "/spec" },
+  { label: "Protocol Specification", to: "/spec" },
+  { label: "Python SDK", to: "/introduction" },
+  { label: "CLI Tool", to: "/quickstart" },
   { label: "Examples", to: "/examples" },
   { label: "Community", to: "/community" },
 ];
 
 export const sidebarByTab: Record<string, NavGroup[]> = {
-  Documentation: [
+  "Python SDK": [
     {
       label: "Get started",
       items: [
         { title: "Introduction", to: "/introduction" },
+      ],
+    },
+  ],
+  "CLI Tool": [
+    {
+      label: "Orchestration",
+      items: [
         { title: "Quickstart", to: "/quickstart" },
       ],
     },
@@ -27,7 +35,7 @@ export const sidebarByTab: Record<string, NavGroup[]> = {
       ],
     },
   ],
-  Specification: [
+  "Protocol Specification": [
     {
       label: "Protocol",
       items: [
@@ -65,8 +73,10 @@ export const sidebarByTab: Record<string, NavGroup[]> = {
 
 export function tabForPath(pathname: string): string {
   if (pathname === "/") return "Home";
-  if (pathname.startsWith("/spec")) return "Specification";
+  if (pathname.startsWith("/spec")) return "Protocol Specification";
+  if (pathname.startsWith("/introduction")) return "Python SDK";
+  if (pathname.startsWith("/quickstart")) return "CLI Tool";
   if (pathname.startsWith("/examples")) return "Examples";
   if (pathname.startsWith("/community")) return "Community";
-  return "Documentation";
+  return "Python SDK";
 }
