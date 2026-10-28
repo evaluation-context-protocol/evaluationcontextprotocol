@@ -30,6 +30,10 @@
         "pages": ["examples"]
       },
       {
+        "tab": "Evidence",
+        "pages": ["evidence"]
+      },
+      {
         "tab": "Community",
         "pages": ["community/index"]
       }

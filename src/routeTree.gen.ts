@@ -9,36 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DocsSpecRouteImport } from './routes/_docs.spec'
-import { Route as DocsQuickstartRouteImport } from './routes/_docs.quickstart'
-import { Route as DocsIntroductionRouteImport } from './routes/_docs.introduction'
-import { Route as DocsExamplesRouteImport } from './routes/_docs.examples'
+import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as DocsCommunityRouteImport } from './routes/_docs.community'
+import { Route as DocsEvidenceRouteImport } from './routes/_docs.evidence'
+import { Route as DocsExamplesRouteImport } from './routes/_docs.examples'
+import { Route as DocsIntroductionRouteImport } from './routes/_docs.introduction'
+import { Route as DocsQuickstartRouteImport } from './routes/_docs.quickstart'
+import { Route as DocsSpecRouteImport } from './routes/_docs.spec'
 
-const DocsRoute = DocsRouteImport.update({
-  id: '/_docs',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DocsSpecRoute = DocsSpecRouteImport.update({
-  id: '/spec',
-  path: '/spec',
+const DocsRoute = DocsRouteImport.update({
+  id: '/_docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsCommunityRoute = DocsCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => DocsRoute,
 } as any)
-const DocsQuickstartRoute = DocsQuickstartRouteImport.update({
-  id: '/quickstart',
-  path: '/quickstart',
-  getParentRoute: () => DocsRoute,
-} as any)
-const DocsIntroductionRoute = DocsIntroductionRouteImport.update({
-  id: '/introduction',
-  path: '/introduction',
+const DocsEvidenceRoute = DocsEvidenceRouteImport.update({
+  id: '/evidence',
+  path: '/evidence',
   getParentRoute: () => DocsRoute,
 } as any)
 const DocsExamplesRoute = DocsExamplesRouteImport.update({
@@ -46,15 +42,26 @@ const DocsExamplesRoute = DocsExamplesRouteImport.update({
   path: '/examples',
   getParentRoute: () => DocsRoute,
 } as any)
-const DocsCommunityRoute = DocsCommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
+const DocsIntroductionRoute = DocsIntroductionRouteImport.update({
+  id: '/introduction',
+  path: '/introduction',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsQuickstartRoute = DocsQuickstartRouteImport.update({
+  id: '/quickstart',
+  path: '/quickstart',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsSpecRoute = DocsSpecRouteImport.update({
+  id: '/spec',
+  path: '/spec',
   getParentRoute: () => DocsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/community': typeof DocsCommunityRoute
+  '/evidence': typeof DocsEvidenceRoute
   '/examples': typeof DocsExamplesRoute
   '/introduction': typeof DocsIntroductionRoute
   '/quickstart': typeof DocsQuickstartRoute
@@ -63,6 +70,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/community': typeof DocsCommunityRoute
+  '/evidence': typeof DocsEvidenceRoute
   '/examples': typeof DocsExamplesRoute
   '/introduction': typeof DocsIntroductionRoute
   '/quickstart': typeof DocsQuickstartRoute
@@ -73,6 +81,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_docs': typeof DocsRouteWithChildren
   '/_docs/community': typeof DocsCommunityRoute
+  '/_docs/evidence': typeof DocsEvidenceRoute
   '/_docs/examples': typeof DocsExamplesRoute
   '/_docs/introduction': typeof DocsIntroductionRoute
   '/_docs/quickstart': typeof DocsQuickstartRoute
@@ -83,6 +92,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/community'
+    | '/evidence'
     | '/examples'
     | '/introduction'
     | '/quickstart'
@@ -91,6 +101,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/community'
+    | '/evidence'
     | '/examples'
     | '/introduction'
     | '/quickstart'
@@ -100,6 +111,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_docs'
     | '/_docs/community'
+    | '/_docs/evidence'
     | '/_docs/examples'
     | '/_docs/introduction'
     | '/_docs/quickstart'
@@ -113,13 +125,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_docs': {
-      id: '/_docs'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof DocsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -127,25 +132,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_docs/spec': {
-      id: '/_docs/spec'
-      path: '/spec'
-      fullPath: '/spec'
-      preLoaderRoute: typeof DocsSpecRouteImport
+    '/_docs': {
+      id: '/_docs'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_docs/community': {
+      id: '/_docs/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof DocsCommunityRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/quickstart': {
-      id: '/_docs/quickstart'
-      path: '/quickstart'
-      fullPath: '/quickstart'
-      preLoaderRoute: typeof DocsQuickstartRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/introduction': {
-      id: '/_docs/introduction'
-      path: '/introduction'
-      fullPath: '/introduction'
-      preLoaderRoute: typeof DocsIntroductionRouteImport
+    '/_docs/evidence': {
+      id: '/_docs/evidence'
+      path: '/evidence'
+      fullPath: '/evidence'
+      preLoaderRoute: typeof DocsEvidenceRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/examples': {
@@ -155,11 +160,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsExamplesRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/community': {
-      id: '/_docs/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof DocsCommunityRouteImport
+    '/_docs/introduction': {
+      id: '/_docs/introduction'
+      path: '/introduction'
+      fullPath: '/introduction'
+      preLoaderRoute: typeof DocsIntroductionRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/quickstart': {
+      id: '/_docs/quickstart'
+      path: '/quickstart'
+      fullPath: '/quickstart'
+      preLoaderRoute: typeof DocsQuickstartRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/spec': {
+      id: '/_docs/spec'
+      path: '/spec'
+      fullPath: '/spec'
+      preLoaderRoute: typeof DocsSpecRouteImport
       parentRoute: typeof DocsRoute
     }
   }
@@ -167,6 +186,7 @@ declare module '@tanstack/react-router' {
 
 interface DocsRouteChildren {
   DocsCommunityRoute: typeof DocsCommunityRoute
+  DocsEvidenceRoute: typeof DocsEvidenceRoute
   DocsExamplesRoute: typeof DocsExamplesRoute
   DocsIntroductionRoute: typeof DocsIntroductionRoute
   DocsQuickstartRoute: typeof DocsQuickstartRoute
@@ -175,6 +195,7 @@ interface DocsRouteChildren {
 
 const DocsRouteChildren: DocsRouteChildren = {
   DocsCommunityRoute: DocsCommunityRoute,
+  DocsEvidenceRoute: DocsEvidenceRoute,
   DocsExamplesRoute: DocsExamplesRoute,
   DocsIntroductionRoute: DocsIntroductionRoute,
   DocsQuickstartRoute: DocsQuickstartRoute,
@@ -190,3 +211,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

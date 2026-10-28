@@ -8,6 +8,7 @@ export const tabs: Tab[] = [
   { label: "Python SDK", to: "/introduction" },
   { label: "CLI Tool", to: "/quickstart" },
   { label: "Examples", to: "/examples" },
+  { label: "Evidence", to: "/evidence" },
   { label: "Community", to: "/community" },
 ];
 
@@ -59,6 +60,18 @@ export const sidebarByTab: Record<string, NavGroup[]> = {
       ],
     },
   ],
+  Evidence: [
+    {
+      label: "Results",
+      items: [
+        { title: "Overview", to: "/evidence" },
+        { title: "Natural defects", to: "/evidence#experiment-1-natural-defects" },
+        { title: "Against other tools", to: "/evidence#experiment-2-ecp-against-other-evaluation-tools" },
+        { title: "Across frameworks", to: "/evidence#experiment-3-one-manifest-four-frameworks" },
+        { title: "Limitations", to: "/evidence#limitations" },
+      ],
+    },
+  ],
   Community: [
     {
       label: "Project",
@@ -77,6 +90,7 @@ export function tabForPath(pathname: string): string {
   if (pathname.startsWith("/introduction")) return "Python SDK";
   if (pathname.startsWith("/quickstart")) return "CLI Tool";
   if (pathname.startsWith("/examples")) return "Examples";
+  if (pathname.startsWith("/evidence")) return "Evidence";
   if (pathname.startsWith("/community")) return "Community";
   return "Python SDK";
 }
