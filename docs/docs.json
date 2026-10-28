@@ -30,8 +30,8 @@
         "pages": ["examples"]
       },
       {
-        "tab": "Evidence",
-        "pages": ["evidence"]
+        "tab": "Integrations",
+        "pages": ["integrations"]
       },
       {
         "tab": "Community",

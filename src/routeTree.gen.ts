@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as DocsCommunityRouteImport } from './routes/_docs.community'
-import { Route as DocsEvidenceRouteImport } from './routes/_docs.evidence'
 import { Route as DocsExamplesRouteImport } from './routes/_docs.examples'
+import { Route as DocsIntegrationsRouteImport } from './routes/_docs.integrations'
 import { Route as DocsIntroductionRouteImport } from './routes/_docs.introduction'
 import { Route as DocsQuickstartRouteImport } from './routes/_docs.quickstart'
 import { Route as DocsSpecRouteImport } from './routes/_docs.spec'
@@ -32,14 +32,14 @@ const DocsCommunityRoute = DocsCommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => DocsRoute,
 } as any)
-const DocsEvidenceRoute = DocsEvidenceRouteImport.update({
-  id: '/evidence',
-  path: '/evidence',
-  getParentRoute: () => DocsRoute,
-} as any)
 const DocsExamplesRoute = DocsExamplesRouteImport.update({
   id: '/examples',
   path: '/examples',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsIntegrationsRoute = DocsIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
   getParentRoute: () => DocsRoute,
 } as any)
 const DocsIntroductionRoute = DocsIntroductionRouteImport.update({
@@ -61,8 +61,8 @@ const DocsSpecRoute = DocsSpecRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/community': typeof DocsCommunityRoute
-  '/evidence': typeof DocsEvidenceRoute
   '/examples': typeof DocsExamplesRoute
+  '/integrations': typeof DocsIntegrationsRoute
   '/introduction': typeof DocsIntroductionRoute
   '/quickstart': typeof DocsQuickstartRoute
   '/spec': typeof DocsSpecRoute
@@ -70,8 +70,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/community': typeof DocsCommunityRoute
-  '/evidence': typeof DocsEvidenceRoute
   '/examples': typeof DocsExamplesRoute
+  '/integrations': typeof DocsIntegrationsRoute
   '/introduction': typeof DocsIntroductionRoute
   '/quickstart': typeof DocsQuickstartRoute
   '/spec': typeof DocsSpecRoute
@@ -81,8 +81,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_docs': typeof DocsRouteWithChildren
   '/_docs/community': typeof DocsCommunityRoute
-  '/_docs/evidence': typeof DocsEvidenceRoute
   '/_docs/examples': typeof DocsExamplesRoute
+  '/_docs/integrations': typeof DocsIntegrationsRoute
   '/_docs/introduction': typeof DocsIntroductionRoute
   '/_docs/quickstart': typeof DocsQuickstartRoute
   '/_docs/spec': typeof DocsSpecRoute
@@ -92,8 +92,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/community'
-    | '/evidence'
     | '/examples'
+    | '/integrations'
     | '/introduction'
     | '/quickstart'
     | '/spec'
@@ -101,8 +101,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/community'
-    | '/evidence'
     | '/examples'
+    | '/integrations'
     | '/introduction'
     | '/quickstart'
     | '/spec'
@@ -111,8 +111,8 @@ export interface FileRouteTypes {
     | '/'
     | '/_docs'
     | '/_docs/community'
-    | '/_docs/evidence'
     | '/_docs/examples'
+    | '/_docs/integrations'
     | '/_docs/introduction'
     | '/_docs/quickstart'
     | '/_docs/spec'
@@ -146,18 +146,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsCommunityRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/evidence': {
-      id: '/_docs/evidence'
-      path: '/evidence'
-      fullPath: '/evidence'
-      preLoaderRoute: typeof DocsEvidenceRouteImport
-      parentRoute: typeof DocsRoute
-    }
     '/_docs/examples': {
       id: '/_docs/examples'
       path: '/examples'
       fullPath: '/examples'
       preLoaderRoute: typeof DocsExamplesRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/integrations': {
+      id: '/_docs/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof DocsIntegrationsRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/introduction': {
@@ -186,8 +186,8 @@ declare module '@tanstack/react-router' {
 
 interface DocsRouteChildren {
   DocsCommunityRoute: typeof DocsCommunityRoute
-  DocsEvidenceRoute: typeof DocsEvidenceRoute
   DocsExamplesRoute: typeof DocsExamplesRoute
+  DocsIntegrationsRoute: typeof DocsIntegrationsRoute
   DocsIntroductionRoute: typeof DocsIntroductionRoute
   DocsQuickstartRoute: typeof DocsQuickstartRoute
   DocsSpecRoute: typeof DocsSpecRoute
@@ -195,8 +195,8 @@ interface DocsRouteChildren {
 
 const DocsRouteChildren: DocsRouteChildren = {
   DocsCommunityRoute: DocsCommunityRoute,
-  DocsEvidenceRoute: DocsEvidenceRoute,
   DocsExamplesRoute: DocsExamplesRoute,
+  DocsIntegrationsRoute: DocsIntegrationsRoute,
   DocsIntroductionRoute: DocsIntroductionRoute,
   DocsQuickstartRoute: DocsQuickstartRoute,
   DocsSpecRoute: DocsSpecRoute,
