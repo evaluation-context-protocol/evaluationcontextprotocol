@@ -15,6 +15,7 @@ import { Route as DocsSpecRouteImport } from './routes/_docs.spec'
 import { Route as DocsQuickstartRouteImport } from './routes/_docs.quickstart'
 import { Route as DocsIntroductionRouteImport } from './routes/_docs.introduction'
 import { Route as DocsExamplesRouteImport } from './routes/_docs.examples'
+import { Route as DocsEvidenceRouteImport } from './routes/_docs.evidence'
 import { Route as DocsCommunityRouteImport } from './routes/_docs.community'
 
 const DocsRoute = DocsRouteImport.update({
@@ -46,6 +47,11 @@ const DocsExamplesRoute = DocsExamplesRouteImport.update({
   path: '/examples',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsEvidenceRoute = DocsEvidenceRouteImport.update({
+  id: '/evidence',
+  path: '/evidence',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsCommunityRoute = DocsCommunityRouteImport.update({
   id: '/community',
   path: '/community',
@@ -55,6 +61,7 @@ const DocsCommunityRoute = DocsCommunityRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/community': typeof DocsCommunityRoute
+  '/evidence': typeof DocsEvidenceRoute
   '/examples': typeof DocsExamplesRoute
   '/introduction': typeof DocsIntroductionRoute
   '/quickstart': typeof DocsQuickstartRoute
@@ -63,6 +70,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/community': typeof DocsCommunityRoute
+  '/evidence': typeof DocsEvidenceRoute
   '/examples': typeof DocsExamplesRoute
   '/introduction': typeof DocsIntroductionRoute
   '/quickstart': typeof DocsQuickstartRoute
@@ -73,6 +81,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_docs': typeof DocsRouteWithChildren
   '/_docs/community': typeof DocsCommunityRoute
+  '/_docs/evidence': typeof DocsEvidenceRoute
   '/_docs/examples': typeof DocsExamplesRoute
   '/_docs/introduction': typeof DocsIntroductionRoute
   '/_docs/quickstart': typeof DocsQuickstartRoute
@@ -83,6 +92,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/community'
+    | '/evidence'
     | '/examples'
     | '/introduction'
     | '/quickstart'
@@ -91,6 +101,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/community'
+    | '/evidence'
     | '/examples'
     | '/introduction'
     | '/quickstart'
@@ -100,6 +111,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_docs'
     | '/_docs/community'
+    | '/_docs/evidence'
     | '/_docs/examples'
     | '/_docs/introduction'
     | '/_docs/quickstart'
@@ -155,6 +167,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsExamplesRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/evidence': {
+      id: '/_docs/evidence'
+      path: '/evidence'
+      fullPath: '/evidence'
+      preLoaderRoute: typeof DocsEvidenceRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/community': {
       id: '/_docs/community'
       path: '/community'
@@ -167,6 +186,7 @@ declare module '@tanstack/react-router' {
 
 interface DocsRouteChildren {
   DocsCommunityRoute: typeof DocsCommunityRoute
+  DocsEvidenceRoute: typeof DocsEvidenceRoute
   DocsExamplesRoute: typeof DocsExamplesRoute
   DocsIntroductionRoute: typeof DocsIntroductionRoute
   DocsQuickstartRoute: typeof DocsQuickstartRoute
@@ -175,6 +195,7 @@ interface DocsRouteChildren {
 
 const DocsRouteChildren: DocsRouteChildren = {
   DocsCommunityRoute: DocsCommunityRoute,
+  DocsEvidenceRoute: DocsEvidenceRoute,
   DocsExamplesRoute: DocsExamplesRoute,
   DocsIntroductionRoute: DocsIntroductionRoute,
   DocsQuickstartRoute: DocsQuickstartRoute,
@@ -190,3 +211,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
